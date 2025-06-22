@@ -15,7 +15,7 @@ const Page = () => {
         topic="Geometry Chapter 01"
         subject= "Science"
         duration ={50}
-        color="#825acc"
+        color="#0bc382"
         />
         <CompanionCard 
         id="890"
