@@ -1,7 +1,11 @@
-import React from 'react'
 
-export default function CompanionsLibrary() {
+
+const CompanionsLibrary = async({searchParams}: SearchParams) => {
+  const params = await searchParams;
+  console.log('PARAMS FROM SEARCH PARMS' , params);
   return (
-    <div>Companions</div>
+    <div>CompanionsLibrary</div>
   )
 }
+
+export default CompanionsLibrary
