@@ -65,3 +65,40 @@ export const getCompanion = async (id: string) => {
     return data[0];
   }
 };
+
+//storing ended sessions in the history
+export const addToSessionHistory = async (companionId: string) => {
+  const { userId } = await auth();
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase.from("session_history").insert({
+    companion_id: companionId,
+    user_id: userId,
+  });
+  if (error) throw new Error(error.message);
+  return data;
+};
+
+//fetching the stored session history
+export const getRecentSessions = async (limit = 10) => {
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase
+    .from("session_history")
+    .select(`companions:companion_id (*)`)
+    .order("created_at", { ascending: false }) //newest --> oldest
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return data.map(({ companions }) => companions);
+};
+
+//fetching data for a particular user session
+export const getUserSessions = async (userId: string, limit = 10) => {
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase
+    .from("session_history")
+    .select(`companions:companion_id (*)`)
+    .eq('user_id', userId)
+    .order("created_at", { ascending: false }) //newest --> oldest
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return data.map(({ companions }) => companions);
+};

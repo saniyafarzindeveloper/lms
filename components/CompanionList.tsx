@@ -41,7 +41,10 @@ export default function CompanionList({
               <TableCell>
                 <Link href={`/companions/${id}`}>
                   <div className="flex items-center gap-2">
-                    <div className="size-[72px] flex items-center justify-center rounded-lg max:md-hidden" style={{backgroundColor : getSubjectColor(subject)}}>
+                    <div
+                      className="size-[72px] flex items-center justify-center rounded-lg max:md-hidden"
+                      style={{ backgroundColor: getSubjectColor(subject) }}
+                    >
                       <Image
                         src={`/icons/${subject}.svg`}
                         alt={subject}
@@ -60,28 +63,37 @@ export default function CompanionList({
 
               <TableCell>
                 {/* subject */}
-              <div className="subject-badge w-fit max-md:hidden">
-                {subject}
-              </div>
-              <div className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden" style={{backgroundColor : getSubjectColor(subject)}}>
-              <Image 
-              src={`/icons/${subject}.svg`}
-              alt={subject}
-              width={18}
-              height={18}
-              />
-              </div>
+                <div className="subject-badge w-fit max-md:hidden">
+                  {subject}
+                </div>
+                <div
+                  className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden"
+                  style={{ backgroundColor: getSubjectColor(subject) }}
+                >
+                  <Image
+                    src={`/icons/${subject}.svg`}
+                    alt={subject}
+                    width={18}
+                    height={18}
+                  />
+                </div>
               </TableCell>
 
               <TableCell>
-
                 {/* duration */}
                 <div className="flex items-center gap-2 w-full justify-end">
-                  <p className="text-xl">{duration}{' '} <span className="max-md:hidden">mins</span></p>
+                  <p className="text-xl">
+                    {duration} <span className="max-md:hidden">mins</span>
+                  </p>
 
-                  <Image src="/icons/clock.svg" alt="duration" width={14} height={14} className="md:hidden"/>
+                  <Image
+                    src="/icons/clock.svg"
+                    alt="duration"
+                    width={14}
+                    height={14}
+                    className="md:hidden"
+                  />
                 </div>
-
               </TableCell>
             </TableRow>
           ))}

@@ -5,6 +5,7 @@ import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import soundwaves from "@/constants/soundwaves.json";
+import { addToSessionHistory } from "@/lib/actions/companion.actions";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -72,7 +73,10 @@ const CompanionComponent = ({
 
   useEffect(() => {
     const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
-    const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+    const onCallEnd = () => {setCallStatus(CallStatus.FINISHED)
+      //add call to history
+      addToSessionHistory(companionId);
+    };
     const onMessage = (message: Message) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
         const newMessage = {
@@ -157,7 +161,11 @@ const CompanionComponent = ({
             />
             <p className="font-bold text-2xl">{userName}</p>
           </div>
-          <button className="btn-mic" onClick={toggleMicrophone}>
+          <button
+            className="btn-mic"
+            onClick={toggleMicrophone}
+            disabled={callStatus !== CallStatus.ACTIVE}
+          >
             <Image
               src={isMuted ? "/icons/mic-off.svg" : "/icons/mic-on.svg"}
               alt="mic"
@@ -189,23 +197,27 @@ const CompanionComponent = ({
 
       {/* TRANSCRIPT */}
       <section className="transcript">
-        <div className="transcript-message no-scrollbar">
-          {messages.map((message) => {
+        <div className="transcript-message no-scrollbar text-black">
+          {messages.map((message, index) => {
             if (message.role === "assistant") {
               return (
-                <p key={message.content} className="max-sm text-sm">
-                  {name.split(" "[0].replace("/[.,]/g,", ""))} :
+                <p key={index} className="max-sm:text-sm">
+                {name.split(" ")[0].replace(/[.,]/g, "")}
+
                   {message.content}
                 </p>
               );
-            }else{
-              <p key={message.content} className="text-primary max-sm:text-sm">
-                {userName} : {message.content}
-              </p>
+            } else {
+              return (
+                <p key={index} className="text-primary max-sm:text-sm">
+                  {userName}: {message.content}
+                </p>
+              );
             }
           })}
         </div>
-        <div className="transcript-fade" />
+
+        {/* <div className="transcript-fade" /> */}
       </section>
     </section>
   );
