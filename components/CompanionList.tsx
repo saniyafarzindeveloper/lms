@@ -24,7 +24,7 @@ export default function CompanionList({
 }: CompanionListProps) {
   return (
     <article className={cn("companion-list", classNames)}>
-      <h2 className="font-bold text-3xl">Recents</h2>
+      <h2 className="font-bold text-3xl">{title}</h2>
 
       <Table>
         <TableCaption>A list of your recent sessions.</TableCaption>
@@ -36,8 +36,8 @@ export default function CompanionList({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {companions?.map(({ id, subject, topic, name, duration }) => (
-            <TableRow key={id}>
+          {companions?.filter(Boolean).map(({ id, subject, topic, name, duration }) => (
+  <TableRow key={id}>
               <TableCell>
                 <Link href={`/companions/${id}`}>
                   <div className="flex items-center gap-2">

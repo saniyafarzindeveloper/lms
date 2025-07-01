@@ -102,3 +102,28 @@ export const getUserSessions = async (userId: string, limit = 10) => {
   if (error) throw new Error(error.message);
   return data.map(({ companions }) => companions);
 };
+
+
+//fetching user companions for the profile page
+export const getUserCompanions = async (userId: string) => {
+  const supabase = createSupabaseClient();
+  const { data, error } = await supabase
+    .from("companions")
+    .select("*")
+    .eq("author", userId);
+
+  if (error) throw new Error(error.message);
+  return data; // don't map here
+};
+
+
+//subscription permission
+export const newCompanionPermission = async() => {
+  const {userId, has} = await auth();
+   const supabase = createSupabaseClient();
+   //setting the limit
+   let limit = 0;
+   if (has({plan: 'pro'})){
+
+   }
+}
